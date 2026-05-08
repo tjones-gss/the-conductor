@@ -1,0 +1,8 @@
+{
+  "status": "ok",
+  "scope": "structural",
+  "checked_paths": ["docs/adr", "docs/adr/_proposals"],
+  "conflicts": [],
+  "coverage_status": "structural_only",
+  "summary_path": ".architect/0042/dispatches/0004-conflict-checker.md"
+}

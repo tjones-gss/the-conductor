@@ -2,6 +2,8 @@
 
 A pure-orchestrator skill for ADR-driven implementation in Claude Code. The orchestrator never writes code itself — it dispatches subagents (worker, test-writer, validator, critic, etc.), routes their structured returns, persists state to disk, and escalates only on a small set of trigger conditions. The point is to keep one Claude session usefully driving a meaningful piece of work to completion without context bloat or drift.
 
+This repo also ships an **Architect Layer**: a sibling `/architect` workflow that audits decision docs, drafts **Proposed** ADRs, polishes ADR/spec/SOP artifacts, checks structural doc conflicts, and roadmaps dependencies before `/conductor` implements accepted ADRs.
+
 **This is v0.2.** Originally built on a Next.js poker-club app, then graded by three independent reviewers (code-quality / architectural / devil's-advocate). The five highest-impact fixes landed: full schema coverage (8 new schemas), acceptance-command binding that schema-rejects `ship_ready: true` when commands didn't run, per-task iter+split tracking that survives crash-resume, role merges (14 → 12), phase merges (7 → 5), and a validator that actually checks template contents instead of just file existence. See the changelog at the bottom of `SKILL.md` for the v0.1 → v0.2 diff.
 
 Still: it has been battle-tested on exactly one project. Treat templates as v0.2 and refine as you use it.
@@ -9,9 +11,13 @@ Still: it has been battle-tested on exactly one project. Treat templates as v0.2
 ## What you get
 
 - **Slash command** — `/conductor <NNNN>` (start), `/conductor resume`, `/conductor status`, `/conductor abort`.
+- **Architect slash command** — `/architect audit`, `/architect generate --decision "<one line>" [--mode brownfield|greenfield]`, `/architect polish <NNNN>`, `/architect roadmap`, `/architect status`, `/architect abort`.
 - **Orchestrator skill** — `SKILL.md` enforces the Pragmatic Purist rule (orchestrator may read specs/ADRs/state; not source code) and **phases 0–5** (bootstrap → plan → build → integration → ship → retrospective).
+- **Architect skill** — prepares MADR/DECIDER/Nygard ADRs and runbookdev-style SOPs without accepting decisions or writing implementation code.
 - **12 role templates** — worker, test-writer, validator, critic, scope-judge, premortem, planner (initial + split modes), spec-writer, journalist (entry + KB deltas), retrospective, shipper, ratifier.
-- **Structural validator** — TypeScript + zod schemas + vitest tests. Beyond file existence: every template's first ```` ```json ```` block parses against its `SCHEMA_BY_ROLE` schema after `{{placeholder}}` substitution, every template has a `# Role: <name>` heading, and any v0.1 removed templates (`task-splitter.md`, `knowledge-curator.md`) being on disk is a hard error.
+- **7 architect role templates** — portfolio-auditor, adr-drafter, adr-polisher, conflict-checker, dependency-planner, sop-scout, doc-linter.
+- **Structural validator** — TypeScript + zod schemas + vitest tests. Beyond file existence: every template's fenced ```` ```json ```` examples parse against its `SCHEMA_BY_ROLE` schema after `{{placeholder}}` substitution, every template has a `# Role: <name>` heading, and any v0.1 removed templates (`task-splitter.md`, `knowledge-curator.md`) being on disk is a hard error.
+- **Doc graph conventions** — ADR proposals live under `docs/adr/_proposals/`, SOP conventions live under `docs/sops/`, and production-readiness coverage uses evidence-based taxonomy labels.
 - **Acceptance-command binding** — spec frontmatter requires `acceptance_commands:`. The slice validator runs them. `ScopeJudgeResultSchema.superRefine` schema-rejects `ship_ready: true` when any command did not run-and-pass.
 - **Paired-spec template** — convention for spec docs that pair with an ADR (`docs/specs/_template.md`).
 - **KB convention** — topic-keyed knowledge base under `docs/kb/` that the conductor reads by topic slice.
@@ -28,13 +34,14 @@ npm install
 npm run validate
 ```
 
-This runs `tsc --noEmit` plus Vitest against `scripts/conductor` (schemas, structural validator, and **canonical-docs drift checks**).
+This runs `tsc --noEmit` plus Vitest against `scripts/` (conductor schemas/validator/docs and architect schemas/validator/doc graph checks).
 
 ## Quickstart (install into another project)
 
-1. Copy `.claude/`, `scripts/conductor/`, and the `docs/` paths listed under [Installation](#installation-into-a-target-project) below.
-2. Ensure `vitest`, `zod`, `@types/node`, and `"validate:conductor": "vitest run scripts/conductor"` exist in that project’s `package.json`.
+1. Copy `.claude/`, `scripts/`, and the `docs/` paths listed under [Installation](#installation-into-a-target-project) below.
+2. Ensure `vitest`, `zod`, `@types/node`, `"validate:conductor": "vitest run scripts/conductor"`, and `"validate:architect": "vitest run scripts/architect"` exist in that project’s `package.json`.
 3. Run `npm run validate:conductor` before your first `/conductor` drive.
+4. Run `npm run validate:architect` before your first `/architect` drive.
 
 ## Troubleshooting
 
@@ -44,6 +51,7 @@ This runs `tsc --noEmit` plus Vitest against `scripts/conductor` (schemas, struc
 | Validator reports missing `acceptance_commands` | Your paired spec must define `acceptance_commands:` (non-empty) in frontmatter — the orchestrator blocks Phase 2 until fixed (see `_template.md`). |
 | **`gh`** not installed / PR step fails | `shipper` expects GitHub CLI for PR flow — install [`gh`](https://cli.github.com/) and authenticate (`gh auth login`), or adjust the shipper template for your forge. |
 | Stale **v0.1** templates on disk | Remove `task-splitter.md` and `knowledge-curator.md` if present — the validator treats them as errors. |
+| Architect reports proposal path errors | Keep AI-drafted ADRs under `docs/adr/_proposals/`; accepted ADR files under `docs/adr/NNNN-*.md` are human-controlled. |
 | Subagents unavailable | Workflow still parses, but the orchestrator won’t isolate context; consider lighter workflows until `Agent`/subagents are available. |
 
 ## Installation into a target project
@@ -56,8 +64,14 @@ From the **repository root** of this harness (`conductor-harness/`), copy these 
 
 ```
 .claude/commands/conductor.md          → <project>/.claude/commands/conductor.md
+.claude/commands/architect.md          → <project>/.claude/commands/architect.md
 .claude/skills/conductor/              → <project>/.claude/skills/conductor/
-scripts/conductor/                     → <project>/scripts/conductor/
+.claude/skills/architect/              → <project>/.claude/skills/architect/
+scripts/                               → <project>/scripts/
+docs/adr/README.md                     → <project>/docs/adr/README.md
+docs/adr/_proposals/README.md          → <project>/docs/adr/_proposals/README.md
+docs/architecture/                     → <project>/docs/architecture/
+docs/sops/README.md                    → <project>/docs/sops/README.md
 docs/superpowers/                      → <project>/docs/superpowers/
 docs/specs/                            → <project>/docs/specs/   (merge if exists)
 docs/journal/README.md                 → <project>/docs/journal/README.md
@@ -81,10 +95,12 @@ pnpm add -D zod vitest @types/node
 In `package.json` under `"scripts"`:
 
 ```json
-"validate:conductor": "vitest run scripts/conductor"
+"validate:conductor": "vitest run scripts/conductor",
+"validate:architect": "vitest run scripts/architect"
 ```
 
 Run `pnpm validate:conductor` once after install to confirm the validator's own tests pass against the templates you copied. This catches typos in the SKILL.md / template frontmatter before you start running the conductor.
+Run `pnpm validate:architect` after copying the Architect Layer to confirm proposal-path, doc graph, and template checks.
 
 ### 4. Customize project-specific knobs
 
@@ -100,6 +116,16 @@ Edit `.claude/skills/conductor/SKILL.md`:
 ### 6. Optional: hook up Telegram for done/ratification pings
 
 If you've configured the `telegram:configure` skill, the conductor's escalation policy already pings Telegram on triggers 4 (done) and 5 (ratification approval). No extra setup needed.
+
+## Preparing decisions with architect
+
+Use `/architect` before `/conductor` when the decision record is missing, thin, or needs a doc graph audit:
+
+```
+/architect generate --decision "Use managed Postgres for audit logs"
+```
+
+Architect will audit existing docs, draft a non-binding Proposed ADR under `docs/adr/_proposals/NNNN-<slug>.draft.md`, polish it against MADR/DECIDER/Nygard conventions, run structural-only conflict checks, and roadmap dependencies/SOP gaps. It never moves proposals into `docs/adr/NNNN-*.md` and never marks an ADR Accepted.
 
 ## Running it
 
@@ -168,8 +194,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for coherence rules. Licensed under [MIT]
 ```
 .claude/
 ├── commands/
-│   └── conductor.md                    # slash-command entry point
+│   ├── architect.md                    # decision-artifact preparation entry point
+│   └── conductor.md                    # implementation entry point
 └── skills/
+    ├── architect/
+    │   ├── SKILL.md                    # ADR/spec/SOP preparation workflow
+    │   └── templates/                  # 7 architect role templates
     └── conductor/
         ├── SKILL.md                    # orchestrator behavior (canonical phases 0–5)
         └── templates/                  # 12 role templates (v0.2)
@@ -186,18 +216,19 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for coherence rules. Licensed under [MIT]
             ├── validator.md
             └── worker.md
 scripts/
-└── conductor/
-    ├── schemas.ts                      # zod schemas (status, plan, validator-result, role-summary)
-    ├── schemas.test.ts
-    ├── canonical-docs.test.ts          # README / slash command / KB v0.2 wording guard
-    ├── validate-skill.ts               # structural validator
-    ├── validate-skill.test.ts
-    └── fixtures/
-        ├── plan.valid.json
-        ├── status.valid.json
-        ├── status.invalid-missing-phase.json
-        └── validator-result.valid.json
+├── architect/                          # architect schemas, fixtures, validator, doc graph tests
+├── conductor/                          # conductor schemas, fixtures, validator, canonical docs tests
+└── shared/
+    └── validate-skill.ts               # parameterized structural validator
 docs/
+├── adr/
+│   ├── README.md
+│   └── _proposals/README.md
+├── architecture/
+│   ├── graph-manifest.json
+│   └── production-readiness-taxonomy.md
+├── sops/
+│   └── README.md
 ├── superpowers/
 │   ├── specs/conductor-design.md       # source-of-truth design
 │   └── plans/conductor-harness-build.md # build plan (history)

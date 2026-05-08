@@ -1,0 +1,9 @@
+{
+  "run_id": "0042",
+  "mode": "brownfield",
+  "phase": "audit",
+  "started_at": "2026-05-08T16:47:00.000Z",
+  "events_offset": 0,
+  "proposal_paths": ["docs/adr/_proposals/0042-payments.draft.md"],
+  "production_readiness_taxonomy_path": "docs/architecture/production-readiness-taxonomy.md"
+}

@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "expectations": [
+    "proposal-adrs-stay-under-docs-adr-proposals",
+    "coverage-status-avoids-complete-without-evidence"
+  ],
+  "violations": [],
+  "summary_path": ".architect/0042/dispatches/0007-doc-linter.md"
+}

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "nodes": {
+    "accepted_adrs": "docs/adr/NNNN-<slug>.md",
+    "proposed_adrs": "docs/adr/_proposals/NNNN-<slug>.draft.md",
+    "specs": "docs/specs/NNNN-<slug>-implementation.md",
+    "sops": "docs/sops/<slug>.md",
+    "taxonomy": "docs/architecture/production-readiness-taxonomy.md"
+  },
+  "lifecycle_states": ["Proposed", "Accepted", "Rejected", "Deprecated", "Superseded"],
+  "coverage_statuses": [
+    "not_assessed",
+    "unknown",
+    "structural_only",
+    "partial",
+    "gaps_found",
+    "ready_with_evidence"
+  ],
+  "conflict_checker": {
+    "scope": "structural",
+    "checks": [
+      "duplicate-adr-numbers",
+      "status-path-mismatch",
+      "missing-linked-documents",
+      "proposal-files-outside-proposals-directory"
+    ]
+  },
+  "doc_lint": {
+    "expectations": [
+      "proposal-adrs-stay-under-docs-adr-proposals",
+      "accepted-adrs-use-docs-adr-numbered-filenames",
+      "adr-status-uses-lifecycle-states",
+      "coverage-status-avoids-complete-without-evidence",
+      "sops-use-runbookdev-fields"
+    ]
+  }
+}

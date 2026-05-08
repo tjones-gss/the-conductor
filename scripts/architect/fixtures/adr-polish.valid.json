@@ -1,0 +1,8 @@
+{
+  "status": "ok",
+  "input_path": "docs/adr/_proposals/0042-payments.draft.md",
+  "output_path": "docs/adr/_proposals/0042-payments.draft.md",
+  "standards_applied": ["MADR", "DECIDER", "Nygard"],
+  "semantic_decisions_added": false,
+  "summary_path": ".architect/0042/dispatches/0003-adr-polisher.md"
+}

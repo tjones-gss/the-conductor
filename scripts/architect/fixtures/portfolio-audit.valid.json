@@ -1,0 +1,8 @@
+{
+  "status": "ok",
+  "mode": "brownfield",
+  "coverage_status": "partial",
+  "audited_paths": ["docs/adr", "docs/specs", "docs/sops"],
+  "gaps": ["docs/sops has only conventions, no runbooks yet"],
+  "summary_path": ".architect/0042/dispatches/0001-portfolio-auditor.md"
+}

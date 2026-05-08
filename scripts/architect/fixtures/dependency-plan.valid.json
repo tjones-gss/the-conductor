@@ -1,0 +1,8 @@
+{
+  "status": "ok",
+  "roadmap_path": "docs/architecture/adr-roadmap.md",
+  "nodes": ["ADR-0042"],
+  "edges": [],
+  "blocked_items": [],
+  "summary_path": ".architect/0042/dispatches/0005-dependency-planner.md"
+}

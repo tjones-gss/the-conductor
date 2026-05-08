@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "sop_paths": ["docs/sops/release-readiness.md"],
+  "runbookdev_fields_checked": ["title", "owner", "triggers", "steps", "rollback"],
+  "gaps": ["release readiness SOP is not created yet"],
+  "summary_path": ".architect/0042/dispatches/0006-sop-scout.md"
+}
