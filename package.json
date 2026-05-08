@@ -1,0 +1,20 @@
+{
+  "name": "conductor-harness",
+  "private": true,
+  "description": "Pure-orchestrator Conductor skill, validator, and docs (v0.2).",
+  "scripts": {
+    "test": "vitest run scripts/conductor",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm test",
+    "validate:conductor": "vitest run scripts/conductor"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.2",
+    "typescript": "~5.6.0",
+    "vitest": "^3.2.4",
+    "zod": "^3.23.8"
+  }
+}
