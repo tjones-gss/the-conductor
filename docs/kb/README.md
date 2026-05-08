@@ -6,7 +6,7 @@ Workers, test-writers, and spec-writers read the relevant topic slice on every d
 
 **Harness note:** this repository ships only `README.md` here. Topic files live in **your** project after you create them.
 
-## Example topics (from the reference poker-club project)
+## Example topics
 
 Add rows and files as your domain requires:
 

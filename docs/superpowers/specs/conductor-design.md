@@ -303,7 +303,7 @@ Without these techniques: ~80–120k orchestrator tokens per ADR, 2–3 ADRs per
 ## 14. Out of scope
 
 - Multi-ADR parallel orchestration in a single run (sequential only; user runs multiple `/conductor` instances if desired)
-- Cross-project portability (this build is poker-club-tuned; portable v2 is future work)
+- Cross-project portability (portable v2 is future work)
 - Auto-merging skill-diff proposals (always user-gated)
 - Replacing existing `team:shipper`, `team:documentor`, `superpowers:requesting-code-review` agents — the conductor invokes them where they fit
 - Spec-format standardization across other projects (this project's conventions only)
@@ -332,4 +332,4 @@ The skill is shipped when:
 
 | Date | Section(s) | Change | Reason |
 |---|---|---|---|
-| 2026-05-05 | §4.1, §5, §10, §15 | Added `ratifier` role; Phase 0 dispatches ratifier on Stub/Proposed status instead of refusing; new escalation trigger #5 (ratification approval). | First real `/conductor` run (against ADR-0030, Stub) refused at Phase 0. Manual ratification of all slice-1 Stubs would have been ~3-4 hours of one-off work; folding ratification into the conductor pipeline is reusable across all 24 Stubs and matches Travis's stated philosophy of agent-driven work. |
+| 2026-05-05 | §4.1, §5, §10, §15 | Added `ratifier` role; Phase 0 dispatches ratifier on Stub/Proposed status instead of refusing; new escalation trigger #5 (ratification approval). | First real `/conductor` run against a Stub ADR refused at Phase 0. Folding ratification into the conductor pipeline avoids manual one-off ratification work and is reusable across all Stubs. |

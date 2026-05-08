@@ -4,9 +4,7 @@ A pure-orchestrator skill for ADR-driven implementation in Claude Code. The orch
 
 This repo also ships an **Architect Layer**: a sibling `/architect` workflow that audits decision docs, drafts **Proposed** ADRs, polishes ADR/spec/SOP artifacts, checks structural doc conflicts, and roadmaps dependencies before `/conductor` implements accepted ADRs.
 
-**This is v0.2.** Originally built on a Next.js poker-club app, then graded by three independent reviewers (code-quality / architectural / devil's-advocate). The five highest-impact fixes landed: full schema coverage (8 new schemas), acceptance-command binding that schema-rejects `ship_ready: true` when commands didn't run, per-task iter+split tracking that survives crash-resume, role merges (14 → 12), phase merges (7 → 5), and a validator that actually checks template contents instead of just file existence. See the changelog at the bottom of `SKILL.md` for the v0.1 → v0.2 diff.
-
-Still: it has been battle-tested on exactly one project. Treat templates as v0.2 and refine as you use it.
+**This is v0.2.** Graded by three independent reviewers (code-quality / architectural / devil's-advocate). The five highest-impact fixes landed: full schema coverage (8 new schemas), acceptance-command binding that schema-rejects `ship_ready: true` when commands didn't run, per-task iter+split tracking that survives crash-resume, role merges (14 → 12), phase merges (7 → 5), and a validator that actually checks template contents instead of just file existence. See the changelog at the bottom of `SKILL.md` for the v0.1 → v0.2 diff.
 
 ## What you get
 
@@ -176,10 +174,6 @@ It does NOT escalate for: design ambiguities (resolved by spec-writer + critic),
 - You're still in greenfield exploration mode (no specs yet)
 - No ADR or spec culture in the project
 - You want lighter ceremony
-
-## Project context where this was built
-
-The original project: a Next.js (App Router) marketing + member-portal app for a private poker club, with documented ADRs covering auth (Supabase RLS), money (integer cents), idempotency, audit log, etc. The harness was scaffolded across ~17 commits and used to drive at least one ADR (0030, SEO & content strategy) end-to-end before being extracted here.
 
 If you spot rot, drift, or a bug in a template while using it on a new project, the `retrospective` agent will already write a `skill-diff-proposal.md` for you at the end of the run — review and merge that diff back into your local copy.
 

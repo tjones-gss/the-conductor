@@ -1374,7 +1374,7 @@ status: complete
 
 ## Context
 
-Travis's vision: turn Claude into a pure orchestrator that delegates ALL implementation work to subagents, preserving the orchestrator's context window so a single 250k session can drive 10–15 ADRs end-to-end. The harness reads paired implementation specs (one per ADR), runs a 7-phase flow per ADR, and self-improves via three feedback loops (per-iteration attempt logs, per-shift KB updates, per-run skill-diff proposals).
+The vision: turn Claude into a pure orchestrator that delegates ALL implementation work to subagents, preserving the orchestrator's context window so a single 250k session can drive 10–15 ADRs end-to-end. The harness reads paired implementation specs (one per ADR), runs a 7-phase flow per ADR, and self-improves via three feedback loops (per-iteration attempt logs, per-shift KB updates, per-run skill-diff proposals).
 
 ## Changes
 
@@ -1402,7 +1402,7 @@ Travis's vision: turn Claude into a pure orchestrator that delegates ALL impleme
 
 ## Next
 
-- Run `/conductor <N>` against ADR-0030 (SEO & content strategy, slice 1, low-risk) as the first real exercise. Shake out any harness defects before pointing it at high-risk ADRs.
+- Run `/conductor <N>` against a low-risk ADR as the first real exercise. Shake out any harness defects before pointing it at high-risk ADRs.
 - The retrospective from that first run will likely propose its first SKILL.md diff — review and accept/reject.
 
 ## Notes for future me
