@@ -12,12 +12,11 @@ Add rows and files as your domain requires:
 
 | File | ADR(s) |
 |---|---|
-| `rls.md` | 0003 |
-| `money-handling.md` | 0004 |
-| `idempotency.md` | 0005 |
-| `audit-log.md` | 0006 |
-| `auth.md` | 0002 |
-| `pii.md` | 0009, 0023 |
+| `auth.md` | NNNN |
+| `payments.md` | NNNN |
+| `idempotency.md` | NNNN |
+| `audit-log.md` | NNNN |
+| `data-retention.md` | NNNN |
 
 New topics: append a row above and create the file. `journalist` may propose new topics when lessons do not fit existing ones.
 

@@ -18,7 +18,7 @@ Produce `docs/specs/{{adr_number}}-{{slug}}-implementation.md` matching the temp
 - Acceptance criteria (testable, numbered)
 - Task decomposition hints (rough cuts; planner refines)
 - Touched-files inventory (best estimate)
-- Risk flags (auto-flag if linked ADR ∈ {0003, 0004, 0005, 0006, 0009, 0023})
+- Risk flags (auto-flag if linked ADR is in your project's high-risk ADR list — see SKILL.md "High-risk auto-flag")
 - Out of scope
 
 `acceptance_commands` MUST be a non-empty array of runnable shell commands. Each command must exit 0 only when the spec's acceptance criteria are satisfied; do not use an empty array or omit the field.

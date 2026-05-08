@@ -104,12 +104,12 @@ Run `pnpm validate:architect` after copying the Architect Layer to confirm propo
 
 Edit `.claude/skills/conductor/SKILL.md`:
 
-- **High-risk ADR list** — under "High-risk auto-flag", specify the ADR numbers in your project that should auto-trigger `premortem`. The default is none; the original project's list was `0003, 0004, 0005, 0006, 0009, 0023` (auth, money, idempotency, audit-log, identity, privacy).
+- **High-risk ADR list** — under "High-risk auto-flag", specify the ADR numbers in your project that should auto-trigger `premortem`. The default is none; typical high-risk domains include auth, payments, idempotency, audit-logging, identity, and privacy — add whichever ADR numbers correspond to those concerns in your project.
 - **Pragmatic Purist read-list** — verify the file paths under "You may directly read" match your project's layout. Most projects can use the defaults; some may rename `docs/spec.md` → `docs/architecture.md` etc.
 
 ### 5. Seed your KB
 
-`docs/kb/` starts empty (only `README.md` is shipped with this harness). The original project seeded topic files such as `auth.md`, `rls.md`, and `money-handling.md`; create whatever topics fit your codebase. During **Ship** (Phase 4), the `journalist` role writes both the journal entry and topic-keyed KB deltas in one pass, so the KB grows with each run.
+`docs/kb/` starts empty (only `README.md` is shipped with this harness). Seed topic files for whatever high-risk domains your project owns — common examples: `auth.md`, `payments.md`, `data-retention.md`. During **Ship** (Phase 4), the `journalist` role writes both the journal entry and topic-keyed KB deltas in one pass, so the KB grows with each run.
 
 ### 6. Optional: hook up Telegram for done/ratification pings
 
@@ -130,10 +130,10 @@ Architect will audit existing docs, draft a non-binding Proposed ADR under `docs
 Once installed:
 
 ```
-/conductor 0003
+/conductor 0012
 ```
 
-starts the conductor on ADR-0003. It will:
+starts the conductor on ADR-0012. It will:
 
 1. **Phase 0 — Bootstrap** — read the ADR, check status (Stub→Accepted via ratifier if needed, with user approval), ensure paired spec exists; freeze spec `acceptance_commands` into `status.json`.
 2. **Phase 1 — Plan** — critic reviews spec, planner produces a task list, premortem on high-risk tasks.

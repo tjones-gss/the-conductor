@@ -47,7 +47,7 @@ Best estimate of files created or modified. Workers may exceed if needed.
 
 Linked ADRs and why each is risky in this slice.
 
-- **0004 (money):** ... → premortem mandatory
+- **NNNN (domain):** ... → premortem mandatory
 
 ## Out of scope
 

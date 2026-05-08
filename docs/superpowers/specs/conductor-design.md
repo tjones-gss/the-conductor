@@ -102,12 +102,7 @@ ADRs remain immutable once Accepted. Specs iterate freely.
 
 Tasks linked to these ADRs auto-trigger `premortem`:
 
-- **0003** Authorization model — RLS
-- **0004** Money handling — integer cents
-- **0005** Idempotency / exactly-once
-- **0006** Audit log — append-only
-- **0009** Member identity & ID verification
-- **0023** Privacy / GDPR / data deletion
+These are project-specific. Common high-risk domains: authorization, payments, idempotency, audit logging, identity verification, privacy/data deletion. Map them to your project's ADR numbers in `CLAUDE.md` or the skill override.
 
 Additional ADRs may be flagged in the paired spec via `risk: high` frontmatter.
 
